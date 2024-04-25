@@ -9,11 +9,12 @@ class AddClothes extends StatefulWidget {
 }
 
 class _AddClothesState extends State<AddClothes> {
+  final formKey = GlobalKey<FormState>();
   final viewModel = ClothesViewModel();
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController idController = TextEditingController();
-  @override
+  // @override
   // void dispose() {
   //   super.dispose();
   //   nameController.dispose();
@@ -32,63 +33,66 @@ class _AddClothesState extends State<AddClothes> {
             IconButton(
               icon: const Icon(Icons.save),
               onPressed: () {
-                viewModel.addClothes(
-                  Clothes(
+                if (formKey.currentState!.validate()) {
+                  viewModel.addClothes(Clothes(
                     id: idController.text,
                     name: nameController.text,
                     price: double.parse(priceController.text),
-                  ),
-                );
-                Navigator.of(context).pop();
+                  ));
+                  Navigator.of(context).pop();
+                }
               },
             ),
           ],
         ),
         body: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: idController,
-                // validator: (value) {
-                //   if (value == null || value.isEmpty) {
-                //     return 'Vui lòng nhập id sản phẩm';
-                //   }
-                //   return null;
-                // },
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelStyle: TextStyle(fontSize: 22),
-                  labelText: 'Id :',
-                ),
-              ),
-              TextFormField(
-                  controller: nameController,
-                  // validator: (value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return 'Vui lòng nhập tên sản phẩm';
-                  //   }
-                  //   return null;
-                  // },
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: idController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Vui lòng nhập id sản phẩm';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     labelStyle: TextStyle(fontSize: 22),
-                    labelText: 'Tên sản phẩm :',
-                  )),
-              TextFormField(
-                controller: priceController,
-                // validator: (value) {
-                //   if (value == null || value.isEmpty) {
-                //     return 'Vui lòng nhập giá tiền';
-                //   }
-                //   return null;
-                // },
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelStyle: TextStyle(fontSize: 22),
-                  labelText: 'Giá tiền :',
+                    labelText: 'Id :',
+                  ),
                 ),
-              ),
-            ],
+                TextFormField(
+                    controller: nameController,
+                    validator: (name) {
+                      if (name == null || name.isEmpty) {
+                        return 'Vui lòng nhập tên sản phẩm';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelStyle: TextStyle(fontSize: 22),
+                      labelText: 'Tên sản phẩm :',
+                    )),
+                TextFormField(
+                  controller: priceController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Vui lòng nhập giá tiền';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(fontSize: 22),
+                    labelText: 'Giá tiền :',
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }

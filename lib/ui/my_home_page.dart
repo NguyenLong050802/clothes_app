@@ -99,11 +99,11 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_downward_rounded),
+            icon: Icon(Icons.arrow_upward_rounded),
             label: 'Tăng',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_upward_rounded),
+            icon: Icon(Icons.arrow_downward_rounded),
             label: 'Giảm',
           ),
         ],
