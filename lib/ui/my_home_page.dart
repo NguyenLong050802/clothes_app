@@ -1,4 +1,4 @@
-import 'package:clothes_store/ui/activity.dart';
+import 'package:clothes_store/ui/clothes_service.dart';
 import 'package:clothes_store/ui/detail_clothes.dart';
 import 'package:clothes_store/models/clothes.dart';
 import 'package:flutter/material.dart';
