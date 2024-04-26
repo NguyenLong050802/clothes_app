@@ -2,6 +2,7 @@ import 'package:clothes_store/ui/activity.dart';
 import 'package:clothes_store/ui/detail_clothes.dart';
 import 'package:clothes_store/models/clothes.dart';
 import 'package:flutter/material.dart';
+import '../models/view_models.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -11,11 +12,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final viewModel = ClothesViewModel();
-  // @override
-  // void initState() {
-  //   viewModel.loadClothes();
-  //   super.initState();
-  // }
 
   @override
   void dispose() {
@@ -112,20 +108,27 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class ListViewClothes extends StatelessWidget {
+class ListViewClothes extends StatefulWidget {
   final Clothes clothes;
   final VoidCallback onTap;
   const ListViewClothes(
       {super.key, required this.clothes, required this.onTap});
+
+  @override
+  State<ListViewClothes> createState() => _ListViewClothesState();
+}
+
+class _ListViewClothesState extends State<ListViewClothes> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: clothes.price,
+      valueListenable: widget.clothes.price,
       builder: ((context, price, child) {
         return ListTile(
-          title: Text(clothes.name, style: const TextStyle(fontSize: 20)),
+          title:
+              Text(widget.clothes.name, style: const TextStyle(fontSize: 20)),
           subtitle: Text('Price: $price'),
-          onTap: onTap,
+          onTap: widget.onTap,
           trailing: const Icon(Icons.arrow_forward_ios),
         );
       }),

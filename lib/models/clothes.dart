@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:localstore/localstore.dart';
 
 class Clothes {
   String id;
@@ -8,25 +7,15 @@ class Clothes {
   String? image;
   String? description;
   Clothes({
+    required double price,
     required this.id,
     required this.name,
-    required double price,
     this.image,
     this.description,
   }) : price = ValueNotifier(price);
 
-  factory Clothes.fromMap(Map<String, dynamic> map) {
-    return Clothes(
-      id: map['id'],
-      name: map['name'],
-      price: map['price'],
-      image: map['image'],
-      description: map['description'],
-    );
-  }
-
   Map<String, dynamic> toMap() {
-    return {
+    return <String, dynamic>{
       'id': id,
       'name': name,
       'price': price.value,
@@ -34,42 +23,22 @@ class Clothes {
       'description': description,
     };
   }
+
+  factory Clothes.fromMap(Map<String, dynamic> map) {
+    return Clothes(
+      id: map['id'] as String,
+      name: map['name'] as String,
+      price: map['price'] as double,
+      image: map['image'] != null ? map['image'] as String : null,
+      description:
+          map['description'] != null ? map['description'] as String : null,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'Clothes(id: $id, name: $name, price: $price, image: $image, description: $description)';
+  }
 }
 
-class ClothesViewModel extends ChangeNotifier {
-  static final _clothesViewModel = ClothesViewModel._();
-  factory ClothesViewModel() => _clothesViewModel;
-  ClothesViewModel._();
-  final List<Clothes> clothesList = [];
-  void addClothes(Clothes clothes) {
-    clothesList.add(clothes);
-    notifyListeners();
-  }
 
-  void removeClothes(Clothes clothes) {
-    clothesList.remove(clothes);
-    notifyListeners();
-  }
-
-  void updateClothes(Clothes clothes, double price) {
-    clothes.price.value = price;
-    notifyListeners();
-  }
-
-  // Future<void> saveClothes(Clothes clothes) async {
-  //   return await Localstore.instance
-  //       .collection('clothes')
-  //       .doc('clothes')
-  //       .set(clothes.toMap());
-  // }
-
-  // Future<void> loadClothes() async {
-  //   await Localstore.instance.collection('clothes').doc('clothes').get();
-  //   notifyListeners();
-  // }
-
-  // Future<void> deleteClothes(Clothes clothes) async {
-  //   clothesList.remove(clothes);
-  //   notifyListeners();
-  // }
-}

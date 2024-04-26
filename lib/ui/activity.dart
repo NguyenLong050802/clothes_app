@@ -1,3 +1,4 @@
+import '../models/view_models.dart';
 import 'package:flutter/material.dart';
 import '../models/clothes.dart';
 
@@ -14,14 +15,7 @@ class _AddClothesState extends State<AddClothes> {
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController idController = TextEditingController();
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   nameController.dispose();
-  //   priceController.dispose();
-  //   idController.dispose();
-  //   viewModel.dispose();
-  // }
+
 
   @override
   Widget build(BuildContext context) {
