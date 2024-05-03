@@ -1,6 +1,6 @@
 import 'package:clothes_store/models/clothes.dart';
 import 'package:flutter/material.dart';
-import '../models/view_models.dart';
+import '../../models/view_models.dart';
 import 'clothes_service.dart';
 
 class DetailClothes extends StatefulWidget {

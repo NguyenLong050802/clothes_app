@@ -1,6 +1,6 @@
-import '../models/view_models.dart';
+import '../../models/view_models.dart';
 import 'package:flutter/material.dart';
-import '../models/clothes.dart';
+import '../../models/clothes.dart';
 
 class AddClothes extends StatefulWidget {
   const AddClothes({super.key});
