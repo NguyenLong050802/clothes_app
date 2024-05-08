@@ -1,5 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
-
+import 'package:clothes_store/src/custom_textfield.dart';
 import 'package:clothes_store/src/firabase_service.dart';
 import 'package:clothes_store/ui/my_home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -68,8 +67,8 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
-        reverse: true,
         child: Column(
           children: [
             SizedBox(
@@ -78,78 +77,50 @@ class _SignUpState extends State<SignUp> {
                   "assets/background.jfif",
                   fit: BoxFit.cover,
                 )),
-            const SizedBox(height: 30.0),
+            const SizedBox(height: 20.0),
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
               child: Form(
                 key: _formkey,
                 child: Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 2.0, horizontal: 30.0),
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFedf0f8),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter Name';
-                          }
-                          return null;
-                        },
-                        controller: namecontroller,
-                        decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Name",
-                            hintStyle: TextStyle(
-                                color: Color(0xFFb2b7bf), fontSize: 18.0)),
-                      ),
+                    MyTextField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Name';
+                        }
+                        return null;
+                      },
+                      controller: namecontroller,
+                      hintText: "Name",
+                      obscureText: false,
                     ),
                     const SizedBox(height: 20.0),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 2.0, horizontal: 30.0),
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFedf0f8),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter Email';
-                          }
-                          return null;
-                        },
-                        controller: mailcontroller,
-                        decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Email",
-                            hintStyle: TextStyle(
-                                color: Color(0xFFb2b7bf), fontSize: 18.0)),
-                      ),
+                    MyTextField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Email';
+                        } else if (!isEmailValid(value)) {
+                          return ' Email is not available';
+                        }
+                        return null;
+                      },
+                      controller: mailcontroller,
+                      hintText: "Email",
+                      obscureText: false,
+                      keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 20.0),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 2.0, horizontal: 20.0),
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFedf0f8),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter Password';
-                          }
-                          return null;
-                        },
-                        controller: passwordcontroller,
-                        decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Password",
-                            hintStyle: TextStyle(
-                                color: Color(0xFFb2b7bf), fontSize: 18.0)),
-                        obscureText: true,
-                      ),
+                    MyTextField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Password';
+                        }
+                        return null;
+                      },
+                      controller: passwordcontroller,
+                      hintText: "Password",
+                      obscureText: false,
                     ),
                     const SizedBox(height: 20.0),
                     GestureDetector(

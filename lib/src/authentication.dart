@@ -1,4 +1,4 @@
-// ignore_for_file: await_only_futures
+
 
 import 'package:clothes_store/src/firabase_service.dart';
 import 'package:clothes_store/ui/my_home_page.dart';
@@ -36,7 +36,6 @@ class AuthMethods {
       "name": userDetails.displayName,
       "imgUrl": userDetails.photoURL,
       "id": userDetails.uid,
-      "password": ""
     };
     await FirebaseService().addUser(userDetails.uid, userInfoMap).then((value) {
       Navigator.push(

@@ -1,6 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:clothes_store/src/authentication.dart';
+import 'package:clothes_store/src/custom_textfield.dart';
+import 'package:flutter/cupertino.dart';
 import '/ui/my_home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +20,8 @@ class _SingInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
+  bool obscurePass = true;
+  IconData iconPassword = CupertinoIcons.eye_fill;
 
   userLogin() async {
     try {
@@ -50,8 +52,8 @@ class _SingInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
-          reverse: true,
           child: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -60,7 +62,7 @@ class _SingInState extends State<SignIn> {
               ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 10,
@@ -77,71 +79,53 @@ class _SingInState extends State<SignIn> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20.0),
+                const SizedBox(height: 15.0),
                 Padding(
-                  padding: const EdgeInsets.only(right: 10, left: 10),
+                  padding: const EdgeInsets.all(10),
                   child: Form(
                     key: _formKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Container(
-                            height: MediaQuery.of(context).size.height * 0.09,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: TextFormField(
-                              controller: emailCtl,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please Enter Email';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                  hintText: 'Email',
-                                  hintStyle: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 18,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.grey, width: 1),
-                                    borderRadius: BorderRadius.circular(20),
-                                  )),
-                            )),
-                        const SizedBox(height: 10.0),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.09,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: TextFormField(
-                            controller: passwordCtl,
-                            decoration: InputDecoration(
-                                hintText: 'Password',
-                                hintStyle: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 18,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.grey, width: 1),
-                                  borderRadius: BorderRadius.circular(20),
-                                )),
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please Enter Password';
-                              }
-                              return null;
-                            },
-                          ),
+                        MyTextField(
+                          controller: emailCtl,
+                          hintText: 'Email',
+                          obscureText: false,
+                          validator: (emailVali) {
+                            if (emailVali == null || emailVali.isEmpty) {
+                              return 'Please Enter Email';
+                            } else if (!isEmailValid(emailVali)) {
+                              return 'Please Enter Valid Email';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 10.0),
+                        MyTextField(
+                          controller: passwordCtl,
+                          hintText: 'Password',
+                          obscureText: obscurePass,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                obscurePass = !obscurePass;
+                                if (obscurePass) {
+                                  iconPassword = CupertinoIcons.eye_fill;
+                                } else {
+                                  iconPassword = CupertinoIcons.eye_slash_fill;
+                                }
+                              });
+                            },
+                            icon: Icon(iconPassword),
+                          ),
+                          validator: (passVali) {
+                            if (passVali == null || passVali.isEmpty) {
+                              return 'Please Enter Password';
+                            }
+                            return null;
+                          },
+                        ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -160,7 +144,7 @@ class _SingInState extends State<SignIn> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20.0),
+                const SizedBox(height: 10.0),
                 GestureDetector(
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
@@ -215,10 +199,10 @@ class _SingInState extends State<SignIn> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(width: 20.0),
+                    const SizedBox(width: 15.0),
                   ],
                 ),
-                const SizedBox(height: 20.0),
+                const SizedBox(height: 15.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -250,4 +234,11 @@ class _SingInState extends State<SignIn> {
           ),
         ));
   }
+}
+
+bool isEmailValid(String value) {
+  String pattern =
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+  RegExp regExp = RegExp(pattern);
+  return regExp.hasMatch(value);
 }
