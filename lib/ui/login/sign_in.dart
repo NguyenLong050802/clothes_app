@@ -66,7 +66,7 @@ class _SingInState extends State<SignIn> {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 10,
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.34,
                   child: const Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -92,6 +92,7 @@ class _SingInState extends State<SignIn> {
                           controller: emailCtl,
                           hintText: 'Email',
                           obscureText: false,
+                          labelText: 'Email',
                           validator: (emailVali) {
                             if (emailVali == null || emailVali.isEmpty) {
                               return 'Please Enter Email';
@@ -106,6 +107,7 @@ class _SingInState extends State<SignIn> {
                           controller: passwordCtl,
                           hintText: 'Password',
                           obscureText: obscurePass,
+                          labelText: 'Password',
                           suffixIcon: IconButton(
                             onPressed: () {
                               setState(() {

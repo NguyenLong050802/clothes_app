@@ -94,6 +94,7 @@ class _SignUpState extends State<SignUp> {
                       controller: namecontroller,
                       hintText: "Name",
                       obscureText: false,
+                      labelText: "Name",
                     ),
                     const SizedBox(height: 20.0),
                     MyTextField(
@@ -108,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                       controller: mailcontroller,
                       hintText: "Email",
                       obscureText: false,
-                      keyboardType: TextInputType.emailAddress,
+                      labelText: "Email",
                     ),
                     const SizedBox(height: 20.0),
                     MyTextField(
@@ -121,6 +122,7 @@ class _SignUpState extends State<SignUp> {
                       controller: passwordcontroller,
                       hintText: "Password",
                       obscureText: false,
+                      labelText: "Password",
                     ),
                     const SizedBox(height: 20.0),
                     GestureDetector(
